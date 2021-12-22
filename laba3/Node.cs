@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace laba3
         {
             this.x = x;
             this.y = y;
+            ColorPen = Pens.Red;
         }
 
         public int X
@@ -42,6 +44,8 @@ namespace laba3
             }
 
         }
+
+        public Pen ColorPen { get; set; }
     }
 }
 

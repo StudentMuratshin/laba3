@@ -9,11 +9,23 @@ namespace laba3
 {
     internal class MyDataGridView : DataGridView, IView
     {
-        public IModel Model { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        IModel model;
+        public IModel Model
+        {
+            get
+            {
+                return model;
+            }
+            set
+            {
+                model = value;
+            }
+        }
 
         public void UpdateView()
         {
-            throw new NotImplementedException();
+            AutoGenerateColumns = true; // в таблице будут все public-свойства узлов
+            DataSource = Model.AllNodes.ToArray();
         }
     }
 }

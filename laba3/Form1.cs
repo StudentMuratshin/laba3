@@ -12,25 +12,31 @@ namespace laba3
 {
     partial class Form1 : Form, IController
     {
-        List<IView> views = new List<IView>();
         static Random r = new Random();
         IModel model;
         public Form1()
         {
             panelView1 = new PanelView();
+
+            myDataGridView1 = new MyDataGridView();
+
             InitializeComponent();
+
             IView labView = new LabelView(label1);
             model = new MyModel();
+
+            myDataGridView1.Model = model;
+            AddView(myDataGridView1);
+
             labView.Model = model;
             AddView(labView);
 
-
             panelView1.Model = model;
+            
             AddView(panelView1);
-
-            UpdateView();
+            panelView1.ClickedXY += (int X, int Y) => { Model.ChangeColor(X,Y); };
         }
-
+       
         public IModel Model
         {
             get
@@ -46,26 +52,18 @@ namespace laba3
         public void Add()
         {
             model.AddNode(r.Next(100));
-            UpdateView();
+            
         }
-        void UpdateView()
-        {
-            foreach (IView v in views) v.UpdateView();
-            myDataGridView1.AutoGenerateColumns = true; // в таблице будут все public-свойства узлов
-            myDataGridView1.DataSource = Model.AllNodes.ToArray();
-
-        }
+        
         public void AddView(IView v)
         {
-            views.Add(v);
+            model.Changed += new Action(v.UpdateView);
         }
 
         public void Remove()
         {
             if (model.Count > 0)
                 model.RemoveLastNode();
-
-            UpdateView();
         }
 
         private void Click_Add(object sender, EventArgs e)

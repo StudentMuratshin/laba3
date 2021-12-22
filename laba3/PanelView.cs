@@ -10,6 +10,8 @@ namespace laba3
 {
     internal class PanelView : Panel, IView
     {
+        public delegate void Clicked(int X, int Y);
+        public event Clicked ClickedXY;
         IModel model;
         public IModel Model {
             get
@@ -33,8 +35,12 @@ namespace laba3
             Graphics g = e.Graphics;
             foreach (Node n in Model.AllNodes)
             {
-                g.DrawEllipse(Pens.Red, n.X * 20, n.Y * 20, 20, 20);
+                g.DrawEllipse(n.ColorPen, n.X - 10, n.Y - 10, 20, 20);
             }
+        }
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            ClickedXY(e.X, e.Y);
         }
     }
 }
